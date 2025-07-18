@@ -72,5 +72,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #edf0f2;
+    font-family: 'Inter', 'Segoe UI', 'Arial', 'sans-serif';
   }
 }
