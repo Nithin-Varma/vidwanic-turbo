@@ -72,7 +72,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-color: #edf0f2;
+    background-color: #F8F9FA;
     font-family: 'Inter', 'Segoe UI', 'Arial', 'sans-serif';
+    color: #1A1A1A;
   }
 }

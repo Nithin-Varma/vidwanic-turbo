@@ -9,9 +9,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "@repo/ui": "workspace:*",
-    "@repo/db": "workspace:*",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-navigation-menu": "^1.2.13",
     "@repo/auth": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "lucide-react": "^0.344.0",
     "next": "14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

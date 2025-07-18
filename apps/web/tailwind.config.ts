@@ -51,6 +51,16 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Vidwanic brand colors
+        'vidwanic': {
+          'text': '#1A1A1A',
+          'orange': '#F97316',
+          'orange-hover': '#EA580C',
+          'peach': '#FFDAB9',
+          'pink': '#FFC0CB',
+          'background': '#F8F9FA',
+          'light-bg': '#EDF0F2',
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
