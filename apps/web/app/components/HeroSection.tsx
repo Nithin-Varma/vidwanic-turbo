@@ -21,7 +21,7 @@ const HeroSection = () => (
         </div>
         <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-vidwanic-text mb-6">
           Making Learning
-          <span className="block text-vidwanic-orange">Fun & Simple</span>
+          <span className="block mt-2 text-vidwanic-orange">Fun & Simple</span>
         </h1>
         {/* Mobile Image - appears here on mobile only */}
         <div className="lg:hidden flex justify-center mb-8">
