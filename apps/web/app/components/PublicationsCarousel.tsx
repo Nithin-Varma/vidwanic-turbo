@@ -123,10 +123,10 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
             {visiblePublications.map((publication) => (
               <div
                 key={publication.id}
-                className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-[520px] flex flex-col"
               >
                 {/* Cover Image */}
-                <div className="relative h-64 bg-gradient-to-br from-vidwanic-orange to-vidwanic-orange-hover">
+                <div className="relative h-64 bg-gradient-to-br from-vidwanic-orange to-vidwanic-orange-hover flex-shrink-0">
                   {publication.coverImage ? (
                     <Image
                       src={publication.coverImage}
@@ -150,40 +150,42 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
                 </div>
 
                 {/* Content */}
-                <div className="p-4">
-                  <h3 className="font-bold text-lg text-vidwanic-text mb-2 line-clamp-2 group-hover:text-vidwanic-orange transition-colors duration-200">
-                    {publication.title}
-                  </h3>
-                  
-                  {publication.shortDesc && (
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                      {publication.shortDesc}
-                    </p>
-                  )}
+                <div className="p-4 flex-1 flex flex-col">
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg text-vidwanic-text mb-2 line-clamp-2 group-hover:text-vidwanic-orange transition-colors duration-200">
+                      {publication.title}
+                    </h3>
+                    
+                    {publication.shortDesc && (
+                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                        {publication.shortDesc}
+                      </p>
+                    )}
 
-                  {publication.suitableFor && (
-                    <div className="mb-3">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full bg-vidwanic-orange/10 text-vidwanic-orange text-xs font-medium">
-                        <Users className="w-3 h-3 mr-1" />
-                        {publication.suitableFor}
-                      </span>
-                    </div>
-                  )}
+                    {publication.suitableFor && (
+                      <div className="mb-3">
+                        <span className="inline-flex items-center px-2 py-1 rounded-full bg-vidwanic-orange/10 text-vidwanic-orange text-xs font-medium">
+                          <Users className="w-3 h-3 mr-1" />
+                          {publication.suitableFor}
+                        </span>
+                      </div>
+                    )}
 
-                  {/* Stats */}
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3" />
-                      <span>{publication.totalPurchases} purchases</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Users className="w-3 h-3" />
-                      <span>{publication.schoolPurchases} schools</span>
+                    {/* Stats */}
+                    <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3 h-3" />
+                        <span>{publication.totalPurchases} purchases</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        <span>{publication.schoolPurchases} schools</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Actions */}
-                  <div className="space-y-2">
+                  {/* Actions - Always at bottom */}
+                  <div className="mt-auto">
                     <Link href={`/publications/${publication.id}`}>
                       <Button className="w-full bg-vidwanic-orange hover:bg-vidwanic-orange-hover text-white text-sm py-2">
                         <Eye className="w-4 h-4 mr-2" />
