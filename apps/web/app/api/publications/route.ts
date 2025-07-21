@@ -1,5 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@repo/db';
+import type { Magazine } from '@repo/db';
+
+type PublicationWithCounts = Magazine & {
+  _count: {
+    purchases: number;
+    comments: number;
+  };
+};
+
+interface TransformedPublication {
+  id: string;
+  title: string;
+  description: string | null;
+  shortDesc: string | null;
+  coverImage: string | null;
+  price: number;
+  suitableFor: string | null;
+  totalPurchases: number;
+  schoolPurchases: number;
+  createdAt: Date;
+  updatedAt: Date;
+  commentsCount: number;
+  purchasesCount: number;
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,8 +47,8 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    // Transform data to match our interface
-    const transformedPublications = publications?.map(pub => ({
+    // Transform data to match our interface with null check
+    const transformedPublications: TransformedPublication[] = (publications || []).map((pub) => ({
       id: pub.id,
       title: pub.title,
       description: pub.description,
