@@ -1,19 +1,18 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import React, { Suspense } from "react";
+import Loader from "./components/Loader";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Vidwanic Magazine",
-  description: "Educational magazine platform for India",
+  description: "A modern educational magazine platform.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="font-sans bg-[#edf0f2]">
+        <Suspense fallback={<Loader />}>{children}</Suspense>
+      </body>
     </html>
   );
 }
