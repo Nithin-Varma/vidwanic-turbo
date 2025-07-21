@@ -9,13 +9,17 @@ import Link from "next/link";
 interface Publication {
   id: string;
   title: string;
-  shortDesc: string;
+  description: string | null;
+  shortDesc: string | null;
   coverImage: string | null;
   price: number;
   suitableFor: string | null;
   totalPurchases: number;
   schoolPurchases: number;
-  createdAt: Date;
+  createdAt: string;
+  updatedAt: string;
+  commentsCount: number;
+  purchasesCount: number;
 }
 
 interface PublicationsCarouselProps {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@repo/db';
-
+import { auth } from '../../../../../auth';
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -42,28 +42,29 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check if user is authenticated
+    const session = await auth();
+    
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { success: false, error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     
-    // For demo purposes, we'll use the existing sample user or create one
-    let user = await prisma.user.findFirst({
-      where: {
-        email: 'student@example.com'
-      }
-    });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: {
-          name: 'Demo User',
-          email: 'student@example.com'
-        }
-      });
+    if (!body.content || body.content.trim().length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Comment content is required' },
+        { status: 400 }
+      );
     }
     
     const comment = await prisma.comment.create({
       data: {
-        content: body.content,
-        userId: user.id,
+        content: body.content.trim(),
+        userId: session.user.id,
         magazineId: params.id
       },
       include: {

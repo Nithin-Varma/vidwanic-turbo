@@ -4,9 +4,9 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "dependencies": {
-    "@auth/core": "^0.29.0",
+    "@auth/core": "0.29.0",
     "@auth/prisma-adapter": "^1.4.0",
-    "next-auth": "5.0.0-beta.15"
+    "next-auth": "5.0.0-beta.29"
   },
   "peerDependencies": {
     "@repo/db": "workspace:*"

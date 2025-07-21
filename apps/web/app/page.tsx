@@ -1,19 +1,41 @@
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import PublicationsCarousel from "./components/PublicationsCarousel";
+import { prisma } from "@repo/db";
 
 async function getPublications() {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/publications?limit=10`, {
-      cache: 'no-store'
+    const publications = await prisma.magazine.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 10,
+      include: {
+        _count: {
+          select: {
+            purchases: true,
+            comments: true
+          }
+        }
+      }
     });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch publications');
-    }
-    
-    const result = await response.json();
-    return result.success ? result.data : [];
+
+    // Transform data to match our interface
+    return publications.map(pub => ({
+      id: pub.id,
+      title: pub.title,
+      description: pub.description,
+      shortDesc: pub.shortDesc,
+      coverImage: pub.coverImage,
+      price: pub.price,
+      suitableFor: pub.suitableFor,
+      totalPurchases: pub.totalPurchases,
+      schoolPurchases: pub.schoolPurchases,
+      createdAt: pub.createdAt.toISOString(),
+      updatedAt: pub.updatedAt.toISOString(),
+      commentsCount: pub._count.comments,
+      purchasesCount: pub._count.purchases
+    }));
   } catch (error) {
     console.error('Error fetching publications:', error);
     return [];

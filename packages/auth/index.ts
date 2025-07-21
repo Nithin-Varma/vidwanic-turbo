@@ -1,15 +1,16 @@
+import type { NextAuthConfig, NextAuthResult } from "next-auth";
 import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@repo/db";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const config = {
   adapter: PrismaAdapter(prisma),
   providers: [
-    // Add your providers here, e.g., Google, GitHub
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID!,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    // }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
   ],
   session: {
     strategy: "jwt",
@@ -32,7 +33,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
-});
+} satisfies NextAuthConfig;
+
+const nextAuthResult = NextAuth(config);
+export const handlers = nextAuthResult.handlers;
+export const auth = nextAuthResult.auth;
+export const signIn = nextAuthResult.signIn;
+export const signOut = nextAuthResult.signOut;
 
 export type { Session } from "next-auth";
 export { type DefaultSession } from "next-auth";
