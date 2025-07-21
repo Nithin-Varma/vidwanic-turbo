@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Transform data to match our interface
-    const transformedPublications = publications.map(pub => ({
+    const transformedPublications = publications?.map(pub => ({
       id: pub.id,
       title: pub.title,
       description: pub.description,
