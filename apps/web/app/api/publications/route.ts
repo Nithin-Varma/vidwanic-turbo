@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@repo/db';
-import type { Magazine } from '@repo/db';
+import type { Magazine } from '@prisma/client';
 
 type PublicationWithCounts = Magazine & {
   _count: {
