@@ -21,7 +21,7 @@ async function getPublications() {
     });
 
     // Transform data to match our interface
-    return publications?.map(pub => ({
+    return (publications || []).map((pub: any) => ({
       id: pub.id,
       title: pub.title,
       description: pub.description,
@@ -35,7 +35,7 @@ async function getPublications() {
       updatedAt: pub.updatedAt.toISOString(),
       commentsCount: pub._count.comments,
       purchasesCount: pub._count.purchases
-    })) || [];
+    }));
   } catch (error) {
     console.error('Error fetching publications:', error);
     return [];
@@ -43,7 +43,7 @@ async function getPublications() {
 }
 
 export default async function HomePage() {
-  const publications = await getPublications() || [];
+  const publications = await getPublications();
 
   return (
     <>
