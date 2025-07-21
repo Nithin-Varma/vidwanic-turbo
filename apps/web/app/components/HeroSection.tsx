@@ -3,7 +3,7 @@ import { Button } from "@repo/ui/components/ui/button";
 import { ArrowRight, BookOpen, Users, Zap } from "lucide-react";
 
 const HeroSection = () => (
-  <section className="w-full bg-vidwanic-background py-8 md:py-12 lg:py-16 relative overflow-hidden">
+  <section className="w-full bg-vidwanic-background py-8 md:py-8 lg:py-8 relative overflow-hidden">
     {/* Background decorative elements */}
     <div className="absolute inset-0 overflow-hidden">
       <div className="absolute top-20 left-10 w-64 h-64 bg-vidwanic-peach rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>

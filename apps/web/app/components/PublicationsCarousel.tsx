@@ -65,7 +65,7 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
 
   if (publications.length === 0) {
     return (
-      <section className="w-full bg-white py-16 md:py-24 lg:py-32">
+      <section className="w-full bg-white py-4 md:py-8 lg:py-12">
         <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-vidwanic-text mb-4">
             Our Publications
@@ -79,7 +79,7 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
   }
 
   return (
-    <section className="w-full bg-white py-16 md:py-24 lg:py-32">
+    <section className="w-full bg-white py-8 md:py-12 lg:py-12">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-vidwanic-text mb-4">
