@@ -6,23 +6,8 @@ import { Search, Filter, Calendar, Users, Star, Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface Publication {
-  id: string;
-  title: string;
-  description: string | null;
-  shortDesc: string | null;
-  coverImage: string | null;
-  price: number;
-  suitableFor: string | null;
-  totalPurchases: number;
-  schoolPurchases: number;
-  createdAt: string;
-  commentsCount: number;
-  purchasesCount: number;
-}
-
 interface Props {
-  publications: Publication[];
+  publications: any[];
 }
 
 export default function PublicationsClient({ publications }: Props) {
@@ -126,7 +111,7 @@ export default function PublicationsClient({ publications }: Props) {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredAndSortedPublications.map((publication) => (
+                {filteredAndSortedPublications.map((publication: any) => (
                   <div
                     key={publication.id}
                     className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group h-[580px] flex flex-col"

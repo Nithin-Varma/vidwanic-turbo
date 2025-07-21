@@ -6,21 +6,6 @@ import Header from "../components/Header";
 import PublicationsClient from "./PublicationsClient";
 import { prisma } from "@repo/db";
 
-interface Publication {
-  id: string;
-  title: string;
-  description: string | null;
-  shortDesc: string | null;
-  coverImage: string | null;
-  price: number;
-  suitableFor: string | null;
-  totalPurchases: number;
-  schoolPurchases: number;
-  createdAt: string;
-  commentsCount: number;
-  purchasesCount: number;
-}
-
 async function getPublications() {
   try {
     const publications = await prisma.magazine.findMany({
@@ -37,7 +22,7 @@ async function getPublications() {
       }
     });
 
-    return publications.map(pub => ({
+    return (publications || []).map((pub: any) => ({
       id: pub.id,
       title: pub.title,
       description: pub.description,
