@@ -1,6 +1,10 @@
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import PublicationsCarousel from "./components/PublicationsCarousel";
+import SchoolsPartnership from "./components/SchoolsPartnership";
+import Testimonials from "./components/Testimonials";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
 import { prisma } from "@repo/db";
 
 async function getPublications() {
@@ -50,6 +54,10 @@ export default async function HomePage() {
       <Header />
       <HeroSection />
       <PublicationsCarousel publications={publications} />
+      <SchoolsPartnership />
+      <Testimonials />
+      <AboutUs />
+      <ContactUs />
     </>
   );
 }
