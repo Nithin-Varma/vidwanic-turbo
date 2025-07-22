@@ -86,7 +86,7 @@ const SchoolsPartnership = () => {
   const visibleSchools = showAll ? partnerSchools : partnerSchools.slice(0, 6);
 
   return (
-    <section className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-16 md:py-20 lg:py-24 relative">
+    <section className="w-full bg-white py-20 md:py-24 lg:py-32">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 right-10 w-32 h-32 bg-vidwanic-peach/20 rounded-full blur-2xl"></div>
@@ -166,8 +166,6 @@ const SchoolsPartnership = () => {
         </div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   );
 };

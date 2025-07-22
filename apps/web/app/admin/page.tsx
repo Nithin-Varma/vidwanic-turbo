@@ -1,7 +1,7 @@
 import { auth } from "../../auth";
 import { prisma } from "@repo/db";
 import { redirect } from "next/navigation";
-import { Users, BookOpen, ShoppingCart, MessageCircle, Menu } from "lucide-react";
+import { Users, BookOpen, ShoppingCart, MessageCircle, Menu, HelpCircle, Clock } from "lucide-react";
 import Link from "next/link";
 
 async function getDashboardStats() {
@@ -11,14 +11,17 @@ async function getDashboardStats() {
       totalPublications,
       totalPurchases,
       totalComments,
+      totalEnquires,
       recentUsers,
       recentPublications,
-      recentComments
+      recentComments,
+      recentEnquires
     ] = await Promise.all([
       prisma.user.count(),
       prisma.magazine.count(),
       prisma.purchase.count(),
       prisma.comment.count(),
+      prisma.enquire.count(),
       prisma.user.findMany({
         orderBy: { createdAt: 'desc' },
         take: 5,
@@ -56,6 +59,18 @@ async function getDashboardStats() {
             }
           }
         }
+      }),
+      prisma.enquire.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true
+            }
+          }
+        }
       })
     ]);
 
@@ -64,9 +79,11 @@ async function getDashboardStats() {
       totalPublications,
       totalPurchases,
       totalComments,
+      totalEnquires,
       recentUsers,
       recentPublications,
-      recentComments
+      recentComments,
+      recentEnquires
     };
   } catch (error) {
     console.error('Error fetching dashboard stats:', error);
@@ -130,7 +147,7 @@ export default async function AdminDashboard() {
       {/* Dashboard Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div className="bg-white overflow-hidden shadow rounded-lg p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -168,6 +185,20 @@ export default async function AdminDashboard() {
                 <dl>
                   <dt className="text-sm font-medium text-gray-500 truncate">Total Comments</dt>
                   <dd className="text-lg font-medium text-gray-900">{stats.totalComments}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white overflow-hidden shadow rounded-lg p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <HelpCircle className="h-6 w-6 text-gray-400" />
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Enquiries</dt>
+                  <dd className="text-lg font-medium text-gray-900">{stats.totalEnquires}</dd>
                 </dl>
               </div>
             </div>
@@ -216,7 +247,7 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Recent Users */}
           <div className="bg-white shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
@@ -263,6 +294,59 @@ export default async function AdminDashboard() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* Recent Enquiries */}
+          <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Enquiries</h3>
+              <div className="space-y-3">
+                {stats.recentEnquires.map((enquiry) => (
+                  <div key={enquiry.id} className="p-3 bg-gray-50 rounded">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <p className="font-medium text-gray-900">{enquiry.name}</p>
+                        <p className="text-sm text-gray-500">{enquiry.email}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          enquiry.status === 'pending' 
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : enquiry.status === 'in_progress'
+                            ? 'bg-blue-100 text-blue-800'
+                            : enquiry.status === 'resolved'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          <Clock className="w-3 h-3 mr-1" />
+                          {enquiry.status}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mb-2">
+                      <span className="inline-flex items-center px-2 py-1 rounded-md bg-vidwanic-orange/10 text-vidwanic-orange text-xs font-medium">
+                        {enquiry.contactType}
+                      </span>
+                      {enquiry.organization && (
+                        <span className="ml-2 text-xs text-gray-500">
+                          from {enquiry.organization}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-600 truncate">{enquiry.message}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {new Date(enquiry.createdAt).toLocaleDateString()} at {new Date(enquiry.createdAt).toLocaleTimeString()}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              {stats.recentEnquires.length === 0 && (
+                <div className="text-center py-6 text-gray-500">
+                  <HelpCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p>No enquiries yet</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

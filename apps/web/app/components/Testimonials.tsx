@@ -99,7 +99,7 @@ const Testimonials = () => {
   const visibleTestimonials = testimonials.slice(currentIndex, currentIndex + itemsPerView);
 
   return (
-    <section className="w-full bg-gradient-to-b from-gray-50 to-white py-16 md:py-20 lg:py-24 relative">
+    <section className="w-full bg-gray-100 py-20 md:py-24 lg:py-32">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-20 w-64 h-64 bg-vidwanic-peach/10 rounded-full blur-3xl"></div>

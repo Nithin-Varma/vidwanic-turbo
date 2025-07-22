@@ -79,9 +79,7 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
   }
 
   return (
-    <section className="w-full bg-gradient-to-b from-vidwanic-background to-white py-8 md:py-12 lg:py-12 relative">
-      {/* Top gradient fade */}
-      <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-vidwanic-background to-transparent"></div>
+    <section className="w-full bg-gray-50 py-20 md:py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-vidwanic-text mb-4">
@@ -235,9 +233,6 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
           </Link>
         </div>
       </div>
-      
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
     </section>
   );
 };

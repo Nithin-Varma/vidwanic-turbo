@@ -5,6 +5,7 @@ import SchoolsPartnership from "./components/SchoolsPartnership";
 import Testimonials from "./components/Testimonials";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
+import FAQ from "./components/FAQ";
 import { prisma } from "@repo/db";
 
 async function getPublications() {
@@ -58,6 +59,7 @@ export default async function HomePage() {
       <Testimonials />
       <AboutUs />
       <ContactUs />
+      <FAQ />
     </>
   );
 }
