@@ -5,14 +5,15 @@ import Link from "next/link";
 import { auth } from "../../auth";
 import { handleSignOut } from "../lib/auth-actions";
 import MobileMenu from "./MobileMenu";
+import NavigationLink from "./NavigationLink";
 
 const Header = async () => {
   const session = await auth();
   const navigationItems = [
-    { name: "Publications", href: "/publications" },
-    { name: "Categories", href: "/categories" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "Publications", href: "#publications" },
+    { name: "About", href: "#about" },
+    { name: "Contact", href: "#contact" },
+    { name: "Subscribe for Schools", href: "/school/onboard" },
   ];
 
   return (
@@ -30,13 +31,13 @@ const Header = async () => {
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center space-x-6">
               {navigationItems.map((item) => (
-                <Link 
+                <NavigationLink
                   key={item.name}
                   href={item.href}
-                  className="text-gray-600 hover:text-gray-900"
+                  isSpecial={item.name === 'Subscribe for Schools'}
                 >
                   {item.name}
-                </Link>
+                </NavigationLink>
               ))}
             </nav>
           </div>

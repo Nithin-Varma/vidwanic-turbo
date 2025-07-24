@@ -1,27 +1,32 @@
 import { auth } from "../../auth";
 import { prisma } from "@repo/db";
 import { redirect } from "next/navigation";
-import { Users, BookOpen, ShoppingCart, MessageCircle, Menu, HelpCircle, Clock } from "lucide-react";
+import { Users, BookOpen, ShoppingCart, MessageCircle, Menu, HelpCircle, Clock, School, Package, Check, X, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import SchoolVerificationActions from "./SchoolVerificationActions";
 
 async function getDashboardStats() {
   try {
+    // Get basic stats first
     const [
       totalUsers,
       totalPublications,
       totalPurchases,
       totalComments,
       totalEnquires,
+      totalSchools,
       recentUsers,
       recentPublications,
       recentComments,
-      recentEnquires
+      recentEnquires,
+      recentSchools
     ] = await Promise.all([
       prisma.user.count(),
       prisma.magazine.count(),
       prisma.purchase.count(),
       prisma.comment.count(),
       prisma.enquire.count(),
+      prisma.schoolProfile.count(),
       prisma.user.findMany({
         orderBy: { createdAt: 'desc' },
         take: 5,
@@ -71,8 +76,56 @@ async function getDashboardStats() {
             }
           }
         }
+      }),
+      prisma.schoolProfile.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+        include: {
+          onboardedBy: {
+            select: {
+              name: true,
+              email: true
+            }
+          }
+        }
       })
     ]);
+
+    // Try to get school orders separately with error handling
+    let totalSchoolOrders = 0;
+    let recentSchoolOrders = [];
+
+    try {
+      totalSchoolOrders = await prisma.schoolOrder.count();
+      recentSchoolOrders = await prisma.schoolOrder.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+        include: {
+          school: {
+            select: {
+              schoolName: true,
+              city: true,
+              state: true,
+              contactEmail: true,
+              contactPhone: true
+            }
+          },
+          items: {
+            include: {
+              magazine: {
+                select: {
+                  title: true
+                }
+              }
+            }
+          }
+        }
+      });
+    } catch (schoolOrderError) {
+      console.log('School orders not available yet:', schoolOrderError.message);
+      totalSchoolOrders = 0;
+      recentSchoolOrders = [];
+    }
 
     return {
       totalUsers,
@@ -80,10 +133,14 @@ async function getDashboardStats() {
       totalPurchases,
       totalComments,
       totalEnquires,
+      totalSchools,
+      totalSchoolOrders,
       recentUsers,
       recentPublications,
       recentComments,
-      recentEnquires
+      recentEnquires,
+      recentSchools,
+      recentSchoolOrders
     };
   } catch (error) {
     console.error('Error fetching dashboard stats:', error);
@@ -147,7 +204,7 @@ export default async function AdminDashboard() {
       {/* Dashboard Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div className="bg-white overflow-hidden shadow rounded-lg p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -207,6 +264,34 @@ export default async function AdminDashboard() {
           <div className="bg-white overflow-hidden shadow rounded-lg p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
+                <School className="h-6 w-6 text-gray-400" />
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Schools</dt>
+                  <dd className="text-lg font-medium text-gray-900">{stats.totalSchools}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white overflow-hidden shadow rounded-lg p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Package className="h-6 w-6 text-gray-400" />
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">School Orders</dt>
+                  <dd className="text-lg font-medium text-gray-900">{stats.totalSchoolOrders}</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white overflow-hidden shadow rounded-lg p-5">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
                 <ShoppingCart className="h-6 w-6 text-gray-400" />
               </div>
               <div className="ml-5 w-0 flex-1">
@@ -247,7 +332,7 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6 sm:gap-8">
           {/* Recent Users */}
           <div className="bg-white shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
@@ -345,6 +430,103 @@ export default async function AdminDashboard() {
                 <div className="text-center py-6 text-gray-500">
                   <HelpCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
                   <p>No enquiries yet</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Recent Schools */}
+          <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent School Registrations</h3>
+              <div className="space-y-3">
+                {stats.recentSchools.map((school) => (
+                  <SchoolVerificationActions key={school.id} school={school} />
+                ))}
+              </div>
+              {stats.recentSchools.length === 0 && (
+                <div className="text-center py-6 text-gray-500">
+                  <School className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p>No school registrations yet</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Recent School Orders */}
+          <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Magazine Orders</h3>
+              <div className="space-y-3">
+                {stats.recentSchoolOrders.map((order) => (
+                  <div key={order.id} className="p-3 bg-gray-50 rounded">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <p className="font-medium text-gray-900">{order.school.schoolName}</p>
+                        <p className="text-sm text-gray-500">{order.school.city}, {order.school.state}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          order.status === 'pending' 
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : order.status === 'confirmed'
+                            ? 'bg-blue-100 text-blue-800'
+                            : order.status === 'delivered'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {order.status}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mb-2">
+                      <p className="text-sm font-medium text-gray-900">
+                        Order #{order.orderNumber}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        ₹{order.totalAmount} • {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
+                      </p>
+                    </div>
+                    <div className="mb-2">
+                      <div className="flex flex-wrap gap-1">
+                        {order.items.slice(0, 2).map((item, index) => (
+                          <span key={index} className="inline-flex items-center px-2 py-1 rounded-md bg-vidwanic-orange/10 text-vidwanic-orange text-xs font-medium">
+                            {item.magazine.title} ({item.quantity})
+                          </span>
+                        ))}
+                        {order.items.length > 2 && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-md bg-gray-100 text-gray-600 text-xs font-medium">
+                            +{order.items.length - 2} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-gray-500">
+                        {new Date(order.createdAt).toLocaleDateString()} at {new Date(order.createdAt).toLocaleTimeString()}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <a 
+                          href={`mailto:${order.school.contactEmail}`}
+                          className="text-vidwanic-orange hover:text-vidwanic-orange-hover text-xs"
+                        >
+                          Email
+                        </a>
+                        <a 
+                          href={`tel:${order.school.contactPhone}`}
+                          className="text-vidwanic-orange hover:text-vidwanic-orange-hover text-xs"
+                        >
+                          Call
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {stats.recentSchoolOrders.length === 0 && (
+                <div className="text-center py-6 text-gray-500">
+                  <Package className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <p>No magazine orders yet</p>
                 </div>
               )}
             </div>

@@ -3,13 +3,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@repo/ui/components/ui/button";
 import { ArrowRight, BookOpen, Users, Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 
 const HeroSection = () => {
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   // Handler for image load
   const handleImageLoad = () => setLoading(false);
+
+  // Handler for school subscription
+  const handleSchoolSubscription = () => {
+    router.push('/school/onboard');
+  };
 
   return (
     <section className="w-full bg-vidwanic-background py-8 md:py-8 lg:py-8 relative overflow-hidden">
@@ -44,7 +51,11 @@ const HeroSection = () => {
               Explore Latest Issue
               <ArrowRight className="w-4 lg:w-5 h-4 lg:h-5 ml-2" />
             </Button>
-            <Button variant="outline" className="border-vidwanic-orange text-vidwanic-orange hover:bg-vidwanic-orange hover:text-white font-semibold px-6 lg:px-8 py-3 lg:py-4 rounded-full text-base lg:text-lg transition-all duration-200">
+            <Button 
+              variant="outline" 
+              onClick={handleSchoolSubscription}
+              className="border-vidwanic-orange text-vidwanic-orange hover:bg-vidwanic-orange hover:text-white font-semibold px-6 lg:px-8 py-3 lg:py-4 rounded-full text-base lg:text-lg transition-all duration-200"
+            >
               Subscribe for Schools
             </Button>
           </div>

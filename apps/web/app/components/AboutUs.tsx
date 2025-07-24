@@ -60,7 +60,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <section className="w-full bg-white py-20 md:py-24 lg:py-32">
+    <section id="about" className="w-full bg-white py-20 md:py-24 lg:py-32">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-40 left-10 w-80 h-80 bg-vidwanic-peach/10 rounded-full blur-3xl"></div>

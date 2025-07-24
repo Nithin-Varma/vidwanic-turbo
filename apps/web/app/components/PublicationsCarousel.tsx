@@ -79,7 +79,7 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
   }
 
   return (
-    <section className="w-full bg-gray-50 py-20 md:py-24 lg:py-32">
+    <section id="publications" className="w-full bg-gray-50 py-20 md:py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-vidwanic-text mb-4">

@@ -131,7 +131,7 @@ const ContactUs = () => {
   ];
 
   return (
-    <section className="w-full bg-gray-50 py-20 md:py-24 lg:py-32">
+    <section id="contact" className="w-full bg-gray-50 py-20 md:py-24 lg:py-32">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-10 w-72 h-72 bg-vidwanic-peach/10 rounded-full blur-3xl"></div>

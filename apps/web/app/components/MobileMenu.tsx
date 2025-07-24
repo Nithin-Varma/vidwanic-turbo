@@ -58,16 +58,31 @@ const MobileMenu = ({ navigationItems, session }: MobileMenuProps) => {
         {/* Menu Content */}
         <div className="flex flex-col h-[calc(100vh-4rem)] justify-between">
           <nav className="flex flex-col px-6 py-8 space-y-6">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-base text-gray-700 hover:text-gray-900"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigationItems.map((item) => {
+              const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+                if (item.href.startsWith('#')) {
+                  e.preventDefault();
+                  const element = document.querySelector(item.href);
+                  element?.scrollIntoView({ behavior: 'smooth' });
+                }
+                setIsOpen(false);
+              };
+              
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={`text-base hover:text-gray-900 ${
+                    item.name === 'Subscribe for Schools' 
+                      ? 'bg-vidwanic-orange text-white px-4 py-2 rounded-full font-semibold' 
+                      : 'text-gray-700'
+                  }`}
+                  onClick={handleClick}
+                >
+                  {item.name}
+                </a>
+              );
+            })}
             
             {/* Admin Link */}
             {session?.user?.isAdmin && (
