@@ -204,7 +204,7 @@ export default async function AdminDashboard() {
       {/* Dashboard Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div className="bg-white overflow-hidden shadow rounded-lg p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -331,59 +331,12 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
+        
+
         {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6 sm:gap-8">
-          {/* Recent Users */}
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Users</h3>
-              <div className="space-y-3">
-                {stats.recentUsers.map((user) => (
-                  <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                    <div>
-                      <p className="font-medium text-gray-900">{user.name || 'Anonymous'}</p>
-                      <p className="text-sm text-gray-500">{user.email}</p>
-                    </div>
-                    <div className="text-right">
-                      {user.isAdmin && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-vidwanic-orange text-white mb-1">
-                          Admin
-                        </span>
-                      )}
-                      <p className="text-xs text-gray-500">
-                        {new Date(user.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Recent Publications */}
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Publications</h3>
-              <div className="space-y-3">
-                {stats.recentPublications.map((publication) => (
-                  <div key={publication.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                    <div>
-                      <p className="font-medium text-gray-900">{publication.title}</p>
-                      <p className="text-sm text-gray-500">₹{publication.price} • {publication.totalPurchases} purchases</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-gray-500">
-                        {new Date(publication.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Recent Enquiries */}
-          <div className="bg-white shadow rounded-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8">
+                    {/* Recent Enquiries */}
+                    <div className="bg-white shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Enquiries</h3>
               <div className="space-y-3">
@@ -450,6 +403,54 @@ export default async function AdminDashboard() {
                   <p>No school registrations yet</p>
                 </div>
               )}
+            </div>
+          </div>
+          {/* Recent Users */}
+          <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Users</h3>
+              <div className="space-y-3">
+                {stats.recentUsers.map((user) => (
+                  <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                    <div>
+                      <p className="font-medium text-gray-900">{user.name || 'Anonymous'}</p>
+                      <p className="text-sm text-gray-500">{user.email}</p>
+                    </div>
+                    <div className="text-right">
+                      {user.isAdmin && (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-vidwanic-orange text-white mb-1">
+                          Admin
+                        </span>
+                      )}
+                      <p className="text-xs text-gray-500">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Publications */}
+          <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Publications</h3>
+              <div className="space-y-3">
+                {stats.recentPublications.map((publication) => (
+                  <div key={publication.id} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                    <div>
+                      <p className="font-medium text-gray-900">{publication.title}</p>
+                      <p className="text-sm text-gray-500">₹{publication.price} • {publication.totalPurchases} purchases</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-500">
+                        {new Date(publication.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
