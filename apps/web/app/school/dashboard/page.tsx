@@ -22,6 +22,8 @@ import { Button } from "@repo/ui/components/ui/button";
 
 async function getSchoolData(userId: string) {
   try {
+    // Only users who onboarded a school can access its dashboard
+    // This provides proper access control - users can only see their own school's data
     const schoolProfile = await prisma.schoolProfile.findUnique({
       where: { onboardedByUserId: userId },
       include: {
@@ -118,6 +120,9 @@ export default async function SchoolDashboard() {
   const schoolData = await getSchoolData(session.user.id);
 
   if (!schoolData?.schoolProfile) {
+    // No school profile found for this user
+    // Only users who onboarded a school can access the school dashboard
+    
     return (
       <div className="min-h-screen bg-gray-50">
         {/* Header */}

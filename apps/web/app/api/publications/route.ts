@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@repo/db';
+import { auth } from '../../../auth';
 
 export async function GET(request: NextRequest) {
   try {
@@ -55,6 +56,16 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth();
+    
+    // Check if user is admin
+    if (!session?.user?.isAdmin) {
+      return NextResponse.json(
+        { error: 'Admin access required' },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     
     const publication = await prisma.magazine.create({

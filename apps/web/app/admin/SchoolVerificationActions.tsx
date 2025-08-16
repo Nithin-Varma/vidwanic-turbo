@@ -13,6 +13,8 @@ interface School {
   udiseCode: string | null;
   onboardedByRole: string;
   createdAt: string;
+  subscriptionStatus: string;
+  verificationNotes: string | null;
   onboardedBy: { name: string; email: string };
 }
 
@@ -23,6 +25,7 @@ interface SchoolVerificationActionsProps {
 const SchoolVerificationActions = ({ school }: SchoolVerificationActionsProps) => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [status, setStatus] = useState(school.isVerified);
+  const [subscriptionStatus, setSubscriptionStatus] = useState(school.subscriptionStatus);
 
   const handleVerification = async (approve: boolean) => {
     setIsVerifying(true);
@@ -41,6 +44,7 @@ const SchoolVerificationActions = ({ school }: SchoolVerificationActionsProps) =
 
       if (response.ok) {
         setStatus(approve);
+        setSubscriptionStatus(approve ? 'active' : 'cancelled');
         // Refresh the page to show updated data
         window.location.reload();
       } else {
@@ -77,9 +81,11 @@ const SchoolVerificationActions = ({ school }: SchoolVerificationActionsProps) =
           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
             status 
               ? 'bg-green-100 text-green-800'
+              : subscriptionStatus === 'cancelled'
+              ? 'bg-red-100 text-red-800'
               : 'bg-yellow-100 text-yellow-800'
           }`}>
-            {status ? 'Verified' : 'Pending'}
+            {status ? 'Verified' : subscriptionStatus === 'cancelled' ? 'Rejected' : 'Pending'}
           </span>
         </div>
       </div>
@@ -100,7 +106,7 @@ const SchoolVerificationActions = ({ school }: SchoolVerificationActionsProps) =
         {new Date(school.createdAt).toLocaleDateString()} at {new Date(school.createdAt).toLocaleTimeString()}
       </p>
       
-      {!status && (
+      {!status && subscriptionStatus !== 'cancelled' && (
         <div className="flex items-center gap-2 mt-3">
           <button
             onClick={() => handleVerification(true)}
@@ -124,6 +130,18 @@ const SchoolVerificationActions = ({ school }: SchoolVerificationActionsProps) =
           >
             Contact
           </a>
+        </div>
+      )}
+      
+      {subscriptionStatus === 'cancelled' && (
+        <div className="mt-3 pt-3 border-t border-gray-200">
+          <div className="flex items-center text-xs text-red-600">
+            <X className="w-3 h-3 mr-1" />
+            School application has been rejected
+          </div>
+          {school.verificationNotes && (
+            <p className="text-xs text-gray-500 mt-1">{school.verificationNotes}</p>
+          )}
         </div>
       )}
     </div>

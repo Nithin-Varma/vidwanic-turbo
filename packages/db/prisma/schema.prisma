@@ -56,6 +56,9 @@ model Enquire {
   contactType  String   // "school", "parent", "content", "general"
   status       String   @default("pending") // "pending", "in_progress", "resolved", "closed"
   userId       String?  // Optional - if user is logged in
+  adminResponse String? @db.Text // Admin's response to the enquiry
+  respondedAt  DateTime? // When the admin responded
+  respondedBy  String?  // Admin user ID who responded
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
