@@ -31,7 +31,10 @@ async function getSchoolAndMagazines(userId: string) {
 
     return {
       schoolProfile,
-      magazines
+      magazines: magazines.map(magazine => ({
+        ...magazine,
+        createdAt: magazine.createdAt.toISOString()
+      }))
     };
   } catch (error) {
     console.error('Error fetching school and magazines:', error);

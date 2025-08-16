@@ -53,6 +53,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!enquiry.user || !enquiry.user.email) {
+      return NextResponse.json(
+        { error: 'Enquiry user or email not found' },
+        { status: 404 }
+      );
+    }
+
     // Update enquiry status to 'resolved'
     await prisma.enquire.update({
       where: { id: enquiryId },

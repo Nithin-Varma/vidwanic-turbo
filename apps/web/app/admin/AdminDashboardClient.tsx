@@ -322,7 +322,7 @@ export default function AdminDashboardClient({ stats: initialStats, user }: Admi
                     </div>
                     <div className="mb-2">
                       <div className="flex flex-wrap gap-1">
-                        {order.items.slice(0, 2).map((item, index) => (
+                        {order.items.slice(0, 2).map((item: any, index: any) => (
                           <span key={index} className="inline-flex items-center px-2 py-1 rounded-md bg-vidwanic-orange/10 text-vidwanic-orange text-xs font-medium">
                             {item.magazine.title} ({item.quantity})
                           </span>

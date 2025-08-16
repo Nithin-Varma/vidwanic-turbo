@@ -91,7 +91,7 @@ async function getDashboardStats() {
 
     // Try to get school orders separately with error handling
     let totalSchoolOrders = 0;
-    let recentSchoolOrders = [];
+    let recentSchoolOrders: any[] = [];
 
     try {
       totalSchoolOrders = await prisma.schoolOrder.count();
@@ -120,7 +120,7 @@ async function getDashboardStats() {
         }
       });
     } catch (schoolOrderError) {
-      console.log('School orders not available yet:', schoolOrderError.message);
+      console.log('School orders not available yet:', schoolOrderError instanceof Error ? schoolOrderError.message : schoolOrderError);
       totalSchoolOrders = 0;
       recentSchoolOrders = [];
     }
@@ -170,8 +170,8 @@ export default async function AdminDashboard() {
     <AdminDashboardClient 
       stats={stats} 
       user={{
-        name: session.user.name,
-        email: session.user.email
+        name: session.user.name || undefined,
+        email: session.user.email || ""
       }}
     />
   );
