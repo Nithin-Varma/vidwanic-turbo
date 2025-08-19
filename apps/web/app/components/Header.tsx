@@ -13,7 +13,7 @@ const Header = async () => {
     { name: "Publications", href: "#publications" },
     { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" },
-    { name: "Subscribe for Schools", href: "/school/onboard" },
+    // { name: "Subscribe for Schools", href: "/school/onboard" },
   ];
 
   return (

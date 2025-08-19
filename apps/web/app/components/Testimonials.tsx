@@ -232,7 +232,7 @@ const Testimonials = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button className="bg-vidwanic-orange hover:bg-vidwanic-orange-hover text-white font-semibold px-8 py-3 rounded-full">
-              Subscribe for Schools
+              Onboard Your School
             </Button>
             <Button 
               variant="outline"
