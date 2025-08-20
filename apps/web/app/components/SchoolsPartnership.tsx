@@ -11,76 +11,34 @@ const SchoolsPartnership = () => {
   const partnerSchools = [
     {
       id: 1,
-      name: "Delhi Public School",
-      location: "New Delhi",
+      name: "Vivekananda High School",
+      location: "Munpalle, Nizamabad, Telangana",
       logo: "/school-logos/dps.png"
     },
     {
       id: 2,
-      name: "Kendriya Vidyalaya",
-      location: "Mumbai",
+      name: "Singam High School",
+      location: "Aloor, Nizamabad, Telangana",
       logo: "/school-logos/kv.png"
     },
     {
       id: 3,
-      name: "Ryan International School",
-      location: "Bangalore",
+      name: "Wisdom High School",
+      location: "Nizamabad, Telangana",
       logo: "/school-logos/ryan.png"
     },
     {
       id: 4,
-      name: "St. Xavier's School",
-      location: "Kolkata",
+      name: "CPRM High School",
+      location: "Gutpa, Nizamabad, Telangana",
       logo: "/school-logos/st-xaviers.png"
     },
     {
       id: 5,
-      name: "Modern School",
-      location: "Gurgaon",
+      name: "Modal School",
+      location: "Armoor, Telangana",
       logo: "/school-logos/modern.png"
     },
-    {
-      id: 6,
-      name: "DAV Public School",
-      location: "Chennai",
-      logo: "/school-logos/dav.png"
-    },
-    {
-      id: 7,
-      name: "Army Public School",
-      location: "Pune",
-      logo: "/school-logos/aps.png"
-    },
-    {
-      id: 8,
-      name: "Sardar Patel Vidyalaya",
-      location: "New Delhi",
-      logo: "/school-logos/spv.png"
-    },
-    {
-      id: 9,
-      name: "The Heritage School",
-      location: "Hyderabad",
-      logo: "/school-logos/heritage.png"
-    },
-    {
-      id: 10,
-      name: "Birla Vidya Niketan",
-      location: "New Delhi",
-      logo: "/school-logos/birla.png"
-    },
-    {
-      id: 11,
-      name: "Navodaya Vidyalaya",
-      location: "Jaipur",
-      logo: "/school-logos/navodaya.png"
-    },
-    {
-      id: 12,
-      name: "Lotus Valley International School",
-      location: "Noida",
-      logo: "/school-logos/lotus.png"
-    }
   ];
 
   const visibleSchools = showAll ? partnerSchools : partnerSchools.slice(0, 6);
