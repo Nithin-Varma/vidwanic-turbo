@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, Plus, Edit3, Trash2, Eye, Calendar, Users } from "lucide-react";
+import { BookOpen, Plus, Edit3, Trash2, Eye, Calendar, Users, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { convertGoogleDriveUrl } from "../../lib/utils";
 
 interface Publication {
   id: string;
@@ -27,6 +28,7 @@ export default function AdminPublications() {
   const [publications, setPublications] = useState<Publication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchPublications();
@@ -55,6 +57,7 @@ export default function AdminPublications() {
     }
 
     try {
+      setDeletingId(publicationId);
       const response = await fetch(`/api/publications/${publicationId}`, {
         method: 'DELETE',
       });
@@ -68,6 +71,8 @@ export default function AdminPublications() {
     } catch (error) {
       console.error('Error deleting publication:', error);
       alert('Network error. Please try again.');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -209,9 +214,16 @@ export default function AdminPublications() {
                         <div className="flex items-center gap-3 mb-3">
                           {publication.coverImage && (
                             <img 
-                              src={publication.coverImage} 
+                              src={convertGoogleDriveUrl(publication.coverImage)} 
                               alt={publication.title}
                               className="w-16 h-20 object-cover rounded-md"
+                              onError={(e) => {
+                                // Fallback to original URL if conversion fails
+                                const target = e.target as HTMLImageElement;
+                                if (target.src !== publication.coverImage) {
+                                  target.src = publication.coverImage || '';
+                                }
+                              }}
                             />
                           )}
                           <div>
@@ -266,11 +278,16 @@ export default function AdminPublications() {
                           <Edit3 className="w-4 h-4" />
                         </Link>
                         <button
-                          className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                          className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors disabled:opacity-50"
                           title="Delete Publication"
                           onClick={() => handleDelete(publication.id)}
+                          disabled={deletingId === publication.id}
                         >
-                          <Trash2 className="w-4 h-4" />
+                          {deletingId === publication.id ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
                     </div>

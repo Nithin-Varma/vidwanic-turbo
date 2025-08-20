@@ -56,7 +56,7 @@ const HeroSection = () => {
               onClick={handleSchoolSubscription}
               className="border-vidwanic-orange text-vidwanic-orange hover:bg-vidwanic-orange hover:text-white font-semibold px-6 lg:px-8 py-3 lg:py-4 rounded-full text-base lg:text-lg transition-all duration-200"
             >
-              Subscribe for Schools
+              Onboard Your School
             </Button>
           </div>
           {/* Stats */}

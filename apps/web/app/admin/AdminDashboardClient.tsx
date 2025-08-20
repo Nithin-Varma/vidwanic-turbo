@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Users, BookOpen, ShoppingCart, MessageCircle, Menu, HelpCircle, Clock, School, Package, Check, X, ExternalLink } from "lucide-react";
+import { Users, BookOpen, ShoppingCart, MessageCircle, Menu, HelpCircle, Clock, School, Package, Check, X, ExternalLink, Loader2 } from "lucide-react";
 import Link from "next/link";
 import SchoolVerificationActions from "./SchoolVerificationActions";
 import EnquiriesSection from "./EnquiriesSection";
@@ -63,6 +63,20 @@ export default function AdminDashboardClient({ stats: initialStats, user }: Admi
               <span className="hidden sm:inline text-sm text-gray-600">
                 Welcome, {user.name || user.email}
               </span>
+              <button
+                onClick={refreshEnquiries}
+                disabled={isRefreshing}
+                className="text-vidwanic-orange hover:text-vidwanic-orange-hover text-sm flex items-center disabled:opacity-50"
+              >
+                {isRefreshing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                    Refreshing...
+                  </>
+                ) : (
+                  'Refresh Data'
+                )}
+              </button>
               <Link 
                 href="/" 
                 className="text-vidwanic-orange hover:text-vidwanic-orange-hover text-sm"

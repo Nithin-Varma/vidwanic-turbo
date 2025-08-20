@@ -6,6 +6,7 @@ import { Calendar, Users, Star, MessageCircle, Send, Download, Eye, LogIn } from
 import Image from "next/image";
 import Link from "next/link";
 import { handleSignIn } from "../../lib/auth-actions";
+import { convertGoogleDriveUrl } from "../../lib/utils";
 
 interface Comment {
   id: string;
@@ -123,10 +124,17 @@ export default function PublicationDetailClient({ publication, session }: Props)
                 <div className="aspect-[3/4] relative bg-gradient-to-br from-vidwanic-orange to-vidwanic-orange-hover rounded-2xl shadow-2xl overflow-hidden">
                   {publication.coverImage ? (
                     <Image
-                      src={publication.coverImage}
+                      src={convertGoogleDriveUrl(publication.coverImage)}
                       alt={publication.title}
                       fill
                       className="object-cover"
+                      onError={(e) => {
+                        // Fallback to original URL if conversion fails
+                        const target = e.target as HTMLImageElement;
+                        if (target.src !== publication.coverImage) {
+                          target.src = publication.coverImage || '';
+                        }
+                      }}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white">

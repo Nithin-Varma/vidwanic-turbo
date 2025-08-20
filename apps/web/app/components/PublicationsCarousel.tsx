@@ -5,6 +5,7 @@ import { Button } from "@repo/ui/components/ui/button";
 import { ChevronLeft, ChevronRight, Eye, Calendar, Users, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { convertGoogleDriveUrl } from "../lib/utils";
 
 interface Publication {
   id: string;
@@ -133,10 +134,17 @@ const PublicationsCarousel = ({ publications = [] }: PublicationsCarouselProps) 
                 <div className="relative h-64 bg-gradient-to-br from-vidwanic-orange to-vidwanic-orange-hover flex-shrink-0">
                   {publication.coverImage ? (
                     <Image
-                      src={publication.coverImage}
+                      src={convertGoogleDriveUrl(publication.coverImage)}
                       alt={publication.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        // Fallback to original URL if conversion fails
+                        const target = e.target as HTMLImageElement;
+                        if (target.src !== publication.coverImage) {
+                          target.src = publication.coverImage || '';
+                        }
+                      }}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white">

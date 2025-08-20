@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X, ExternalLink } from "lucide-react";
+import { Check, X, ExternalLink, Loader2 } from "lucide-react";
 
 interface School {
   id: string;
@@ -113,7 +113,11 @@ const SchoolVerificationActions = ({ school }: SchoolVerificationActionsProps) =
             disabled={isVerifying}
             className="flex items-center gap-1 px-3 py-1 bg-green-100 hover:bg-green-200 text-green-800 rounded-md text-xs font-medium transition-colors disabled:opacity-50"
           >
-            <Check className="w-3 h-3" />
+            {isVerifying ? (
+              <Loader2 className="w-3 h-3 animate-spin" />
+            ) : (
+              <Check className="w-3 h-3" />
+            )}
             {isVerifying ? 'Verifying...' : 'Approve'}
           </button>
           <button
@@ -121,8 +125,12 @@ const SchoolVerificationActions = ({ school }: SchoolVerificationActionsProps) =
             disabled={isVerifying}
             className="flex items-center gap-1 px-3 py-1 bg-red-100 hover:bg-red-200 text-red-800 rounded-md text-xs font-medium transition-colors disabled:opacity-50"
           >
-            <X className="w-3 h-3" />
-            Reject
+            {isVerifying ? (
+              <Loader2 className="w-3 h-3 animate-spin" />
+            ) : (
+              <X className="w-3 h-3" />
+            )}
+            {isVerifying ? 'Rejecting...' : 'Reject'}
           </button>
           <a 
             href={`mailto:${school.onboardedBy.email}`}
