@@ -81,13 +81,13 @@ const FAQ = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:hello@vidwanic.com"
+                href="mailto:mnithin1422@gmail.com"
                 className="bg-vidwanic-orange hover:bg-vidwanic-orange-hover text-white font-semibold px-8 py-3 rounded-full transition-all duration-200"
               >
                 Email Us
               </a>
               <a
-                href="https://wa.me/919876543210"
+                href="https://wa.me/919381507638"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border-2 border-vidwanic-orange text-vidwanic-orange hover:bg-vidwanic-orange hover:text-white font-semibold px-8 py-3 rounded-full transition-all duration-200"
