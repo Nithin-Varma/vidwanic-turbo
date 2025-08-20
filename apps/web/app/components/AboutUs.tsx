@@ -6,30 +6,30 @@ const AboutUs = () => {
   const team = [
     {
       id: 1,
-      name: "Arjun Sharma",
-      role: "Co-Founder & COO",
-      specialization: "Operations, Technology & Finance",
-      description: "Arjun brings 8+ years of experience in educational technology and operations management. He oversees the technical infrastructure, financial planning, and operational efficiency that keeps Vidwanic running smoothly.",
+      name: "Nithin Mengani",
+      role: "Co-Founder & CEO",
+      specialization: "Execution, Technology & Finance",
+      description: "Nithin brings 4+ years of experience in education and technology, he built 3 startups and has strong background in technology, customer success, operations and finance.",
       skills: ["Operations Management", "EdTech", "Financial Planning", "System Architecture"],
       icons: [Code, DollarSign],
       gradient: "from-blue-500 to-purple-600"
     },
     {
       id: 2,
-      name: "Priya Mehta",
-      role: "Co-Founder & Creative Director",
+      name: "Sudheer Mengani",
+      role: "Co-Founder, Director",
       specialization: "Content, Design & Ideation",
-      description: "Priya is the creative force behind Vidwanic's engaging content. With her background in education and design thinking, she ensures every article resonates with students while maintaining educational excellence.",
+      description: "Sudheer brings his 5+ years of experience in content creation, design and ideation. His unique style in content creation and design is what makes Vidwanic stand out.",
       skills: ["Content Strategy", "Educational Design", "Creative Direction", "Curriculum Development"],
       icons: [Palette, Lightbulb],
       gradient: "from-pink-500 to-rose-600"
     },
     {
       id: 3,
-      name: "Rahul Patel",
+      name: "Prashanth Perka",
       role: "Co-Founder & Growth Lead",
       specialization: "Marketing & User Management",
-      description: "Rahul drives Vidwanic's growth and community engagement. His expertise in digital marketing and user experience helps us connect with schools and students across India, building lasting relationships.",
+      description: "Prashanth drives Vidwanic's growth and community engagement. His expertise in digital marketing and user experience helps us connect with schools and students across India, building lasting relationships.",
       skills: ["Digital Marketing", "Community Building", "User Experience", "Partnership Development"],
       icons: [Megaphone, UserCheck],
       gradient: "from-green-500 to-teal-600"
